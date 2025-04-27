@@ -14,7 +14,7 @@ struct Tile
 	Tile() : onOrder{ 0 }, status{ off } { }
 
 	Tile(Status st)
-		: Tile() 
+		: Tile()
 	{
 		status = st;
 	}
@@ -43,7 +43,7 @@ struct Tile
 struct Tiles
 {
 	static constexpr int maxTiles = 8;
-	
+
 	Tile	tiles[maxTiles]{ };
 	uint8_t weight{ 0 };
 
@@ -58,7 +58,7 @@ struct Tiles
 			tiles[i] = o.tiles[i];
 
 		weight = o.weight;
-	
+
 		return *this;
 	}
 
@@ -74,13 +74,12 @@ struct Tiles
 
 		return *this;
 	}
-	
+
 	~Tiles() = default;
 
 
 	void newTile()
 	{
-		uint8_t bit = 0;
 		uint8_t i = 0;
 		do
 			i = rand() % maxTiles;

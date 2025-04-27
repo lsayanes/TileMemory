@@ -1,6 +1,4 @@
 
-#include <Windows.h>
-
 #include <iostream>
 #include <algorithm>
 #include <Render.h>

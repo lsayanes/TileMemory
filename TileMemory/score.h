@@ -23,7 +23,7 @@ struct Score
 				level++;
 			}
 		}
-#if defined(_CONSOLE_VERBOSE)ñ13
+#if defined(_CONSOLE_VERBOSE)
 		std::cout << "level: " << static_cast<int>(level) << " score: " << score << " stages: " << static_cast<int>(stages) << " ground: " << static_cast<int>(ground) << std::endl;
 #endif
 	}

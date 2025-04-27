@@ -12,8 +12,7 @@
 
 #if defined(_CONSOLE_VERBOSE)
 #include <iostream>
-#include <conio.h>
-#endif 
+#endif
 
 Game::Game(sys::Render& rndr) :
 	score{ 0 }, stages{ 1 },
@@ -26,7 +25,7 @@ Game::Game(sys::Render& rndr) :
 	updateMutex{ },
 	render{ rndr },
 	offImg{ rndr.loadPng("./Img/cyan.png") }, onImg{ rndr.loadPng("./Img/yellow.png") }, guessImg{ rndr.loadPng("./Img/guess.png") }, deadImg{ rndr.loadPng("./Img/purple.png") },
-	entities{ }, 
+	entities{ },
 	touchOrder{ 0 }, touches{ 0 }
 {
 	srand(static_cast<unsigned int>(time(nullptr)));
@@ -146,17 +145,17 @@ void Game::move()
 	*lines = 0;
 }
 
-void Game::leveUp() 
-{ 
+void Game::leveUp()
+{
 	if (level < maxLevels)
 		level++;
 }
 
-bool Game::timeOut(uint32_t milliseconds) 
+bool Game::timeOut(uint32_t milliseconds)
 {
 	const uint32_t ms = 10;
 	uint32_t cnt = 0;
-	
+
 	while (cnt < milliseconds)
 	{
 		std::this_thread::sleep_for(std::chrono::milliseconds(ms));
@@ -169,7 +168,7 @@ bool Game::timeOut(uint32_t milliseconds)
 }
 
 
-void Game::update() 
+void Game::update()
 {
 	auto updateTime = std::chrono::steady_clock::now();
 
@@ -181,11 +180,11 @@ void Game::update()
 		{
 			for (uint8_t t = 0; t < Tiles::maxTiles; t++)
 			{
-				std::lock_guard<std::mutex> lock(updateMutex); 
+				std::lock_guard<std::mutex> lock(updateMutex);
 				{
 					auto& tile = lines[l].tiles[t];
 					//auto pData = entities[imgCnt].data.get()->pData;
-				
+
 					if (Tile::Status::on == tile.status)
 						entities[imgCnt].data.get()->pData = onImg.pData;
 					else if (Tile::Status::off == tile.status)
@@ -264,7 +263,7 @@ void Game::playLineRestore()
 void Game::doDown()
 {
 	constexpr uint8_t limit = maxLines - 1;
-	
+
 	uint8_t downline = playLine;
 
 	while (downline < limit && bPlaying)
@@ -325,7 +324,7 @@ uint8_t Game::checkInput()
 	{
 		auto &tile = lines[playLine].tiles[i];
 		auto& gss = guess[i];
-		
+
 		if (tile.status == gss.status)
 		{
 			if (tile.onOrder != gss.onOrder)
@@ -379,7 +378,7 @@ void Game::printBoard() const
 
 			std::cout << "|";
 		}
-		
+
 		if (l == playLine)
 			std::cout << "<-";
 		std::cout << std::endl;
