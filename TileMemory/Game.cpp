@@ -14,10 +14,10 @@
 #include <iostream>
 #endif
 
-Game::Game(sys::Render& rndr) :
-	score{ 0 }, stages{ 1 },
+Game::Game(sys::Render& rndr, Score& scr) :
+	score{ scr }/*, stages{1}*/,
 	bPlaying{ false },
-	level{ 0 },
+	//level{ 0 },
 	lastAddedline{ 0 },
 	ground{ maxLines },
 	lines{ },
@@ -66,7 +66,7 @@ void Game::play()
 		tileCnt++;
 		bPlaying = timeOut(500);
 
-		if (bPlaying && tileCnt > level)
+		if (bPlaying && tileCnt > score.level)
 		{
 			while (bPlaying && playLine != lastAddedline)
 			{
@@ -80,7 +80,7 @@ void Game::play()
 				touches = 0;
 				auto touchesTime = std::chrono::steady_clock::now();
 
-				while (bPlaying && touches < (level + 1) && !elapsed(touchesTime, (2000 * (level + 1))))
+				while (bPlaying && touches < (score.level + 1) && !elapsed(touchesTime, (2000 * (score.level + 1))))
 					bPlaying = timeOut(500);
 
 				if (bPlaying && (bPlaying = timeOut(200)))
@@ -88,11 +88,11 @@ void Game::play()
 					auto err = checkInput();
 					if (0 == err)
 					{
-						updateScore();
+						score.updateScore();
 					}
 					else
 					{
-						updateScore(err);
+						score.updateScore(err);
 						playLineRestore();
 						doDown();
 
@@ -145,11 +145,6 @@ void Game::move()
 	*lines = 0;
 }
 
-void Game::leveUp()
-{
-	if (level < maxLevels)
-		level++;
-}
 
 bool Game::timeOut(uint32_t milliseconds)
 {
@@ -387,10 +382,10 @@ void Game::printBoard() const
 
 void Game::printMembers() const
 {
-	std::cout << "level:" << static_cast<int>(level) << std::endl;
+	std::cout << "level:" << static_cast<int>(score.level) << std::endl;
 	std::cout << "lastAddedline:" << static_cast<int>(lastAddedline) << std::endl;
 	std::cout << "ground:" << static_cast<int>(ground) << std::endl;
-	std::cout << "score:" << score << std::endl;
+	std::cout << "score:" << score.maxScore << std::endl;
 
 	/*
 	std::cout << "input: ";

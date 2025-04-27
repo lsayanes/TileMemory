@@ -13,20 +13,21 @@
 #include <Render.h>
 
 #include "Tiles.h"
+#include "score.h"
 
 
 class Game
 {
 public:
 	static constexpr uint8_t maxLines{ 16 };
-	static constexpr uint8_t maxLevels{ 8 };
 	static constexpr uint8_t playLine{ 2 };
 
 private:
-	uint64_t	score;
-	uint64_t	stages;
+	Score		&score;
+	//uint64_t	score;
+	//uint64_t	stages;
 	bool		bPlaying;
-	uint8_t		level;
+	//uint8_t		level;
 	uint8_t		lastAddedline;
 	uint8_t		ground;
 	Tiles		lines[maxLines];
@@ -50,7 +51,6 @@ private:
 private:
 	void	newLine();
 	void	move();
-	void	leveUp();
 	bool	timeOut(uint32_t milliseconds);
 	uint8_t	checkInput();
 	void	update();
@@ -60,7 +60,7 @@ private:
 	void	playLineRestore();
 	void	doDown();
 	void	updateGround();
-	
+	/*
 	inline void updateScore(uint8_t err = 0) 
 	{
 		score += ((uint64_t)1 << (err>level?0:level - err));
@@ -74,7 +74,7 @@ private:
 		std::cout << "level: " << static_cast<int>(level) << " score: " << score << " stages: " << static_cast<int>(stages) << " ground: " << static_cast<int>(ground) << std::endl;
 #endif
 	}
-
+	*/
 	inline bool elapsed(std::chrono::steady_clock::time_point start, int milliseconds)
 	{
 		auto now = std::chrono::steady_clock::now();
@@ -83,7 +83,7 @@ private:
 	}
 
 public:
-	explicit Game(sys::Render& render);
+	explicit Game(sys::Render& render, Score &score);
 	virtual ~Game();
 
 	void play();
