@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Archivos de recursos">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="sources">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="headers">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="ecs">
+      <UniqueIdentifier>{0438384b-0160-40ff-b409-925b89bb6f18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="system">
+      <UniqueIdentifier>{4ac0f6a1-f62d-450f-b662-734738ee4217}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="format">
+      <UniqueIdentifier>{36d286ed-11ad-4efb-af3a-a49fe22757db}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="system\Render.cpp">
+      <Filter>system</Filter>
+    </ClCompile>
+    <ClCompile Include="MemoryApp.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="ecs\EntityManager.cpp">
+      <Filter>ecs</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="system\Render.h">
+      <Filter>system</Filter>
+    </ClInclude>
+    <ClInclude Include="ecs\Entity.h">
+      <Filter>ecs</Filter>
+    </ClInclude>
+    <ClInclude Include="formats\Image.h">
+      <Filter>format</Filter>
+    </ClInclude>
+    <ClInclude Include="ecs\EntityManager.h">
+      <Filter>ecs</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Tiles.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="score.h">
+      <Filter>headers</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
