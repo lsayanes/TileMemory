@@ -1,3 +1,4 @@
+
 CXX = clang++
 CXXFLAGS = -std=c++23 -Wall -pedantic -I/opt/homebrew/include -I./ecs -I./formats -I./system
 LDFLAGS = -L/opt/homebrew/lib -lSDL3 -lSDL3_image
