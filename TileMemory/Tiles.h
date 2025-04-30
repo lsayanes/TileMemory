@@ -6,7 +6,7 @@
 
 struct Tile
 {
-	enum Status {off, on, guess, bad, dead};
+	enum Status {off, on, guess, dead };
 
 	uint8_t onOrder;
 	Status  status;

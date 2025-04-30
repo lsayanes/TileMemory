@@ -15,9 +15,8 @@
 #endif
 
 Game::Game(sys::Render& rndr, Score& scr) :
-	score{ scr }/*, stages{1}*/,
+	score{ scr },
 	bPlaying{ false },
-	//level{ 0 },
 	lastAddedline{ 0 },
 	ground{ maxLines },
 	lines{ },
@@ -86,29 +85,21 @@ void Game::play()
 				if (bPlaying && (bPlaying = timeOut(200)))
 				{
 					auto err = checkInput();
-					if (0 == err)
-					{
-						score.updateScore();
-					}
-					else
-					{
-						score.updateScore(err);
-						playLineRestore();
-						doDown();
+					score.updateScore(err);
+					playLineRestore();
+					doDown();
 
-						if (bPlaying)
+					if (bPlaying)
+					{
+						updateGround();
+						if (ground <= playLine)
 						{
-							updateGround();
-							if (ground <= playLine)
-							{
-								std::cout << "GAME OVER" << std::endl;
+							std::cout << "GAME OVER" << std::endl;
 
-								while(render.doEvent())
-									;
-								bPlaying = false;
-							}
+							while(render.doEvent())
+								;
+							bPlaying = false;
 						}
-
 					}
 
 					if (bPlaying)
@@ -189,7 +180,6 @@ void Game::update()
 					else if (Tile::Status::dead == tile.status)
 						entities[imgCnt].data.get()->pData = deadImg.pData;
 
-
 					imgCnt++;
 				}
 			}
@@ -250,7 +240,7 @@ void Game::playLineRestore()
 	for (auto i = 0; i < Tiles::maxTiles; i++)
 	{
 		auto& tile = lines[playLine].tiles[i];
-		tile.status = Tile::Status::bad == guess[i].status? Tile::Status::on : Tile::Status::off;
+		tile.status = (Tile::Status::dead == guess[i].status /* || Tile::Status::bad == guess[i].status*/) ? Tile::Status::on : Tile::Status::off;
 		tile.onOrder = guess[i].onOrder;
 	}
 }
@@ -289,10 +279,9 @@ void Game::updateGround()
 {
 	uint8_t line = maxLines - 1;
 	std::lock_guard<std::mutex> lock(updateMutex);
-	ground--;
 
 	uint8_t firstDead = line;
-	while (line >= ground)
+	while (line >= playLine)
 	{
 		for (auto i = 0; i < Tiles::maxTiles; i++)
 		{
@@ -324,13 +313,13 @@ uint8_t Game::checkInput()
 		{
 			if (tile.onOrder != gss.onOrder)
 			{
-				gss.status = Tile::Status::bad;
+				gss.status = Tile::Status::dead;
 				ret++;
 			}
 		}
 		else
 		{
-			gss.status = Tile::Status::bad;
+			gss.status = Tile::Status::dead;
 			ret++;
 		}
 	}
@@ -348,7 +337,8 @@ void Game::printBoard() const
 		std::cout << "|";
 		for (uint8_t t = 0; t < Tiles::maxTiles; t++)
 		{
-			if (ground != l) {
+			if (ground != l) 
+			{
 				if (playLine != l)
 				{
 					auto& tile = lines[l].tiles[t];

@@ -8,18 +8,11 @@
 
 #include "Game.h"
 
-uint64_t score = 0;
-uint8_t level = 0;
-uint8_t stages = 1;
-
 
 int main(int argc, char* argv[])
 {
 
-
     Score score;
-
-    
 
     sys::Render render{ 400, 800 };
     if (render.createWindows("Memory Tiles!"))
@@ -28,5 +21,6 @@ int main(int argc, char* argv[])
         tileMemory.play();
     }
 
+    return 0;
 }
 
