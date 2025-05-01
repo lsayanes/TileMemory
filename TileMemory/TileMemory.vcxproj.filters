@@ -36,6 +36,9 @@
     <ClCompile Include="Game.cpp">
       <Filter>sources</Filter>
     </ClCompile>
+    <ClCompile Include="Score.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="system\Render.h">
@@ -56,7 +59,7 @@
     <ClInclude Include="Tiles.h">
       <Filter>headers</Filter>
     </ClInclude>
-    <ClInclude Include="score.h">
+    <ClInclude Include="Score.h">
       <Filter>headers</Filter>
     </ClInclude>
   </ItemGroup>

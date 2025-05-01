@@ -1,8 +1,6 @@
 
 #pragma once
 
-#define _CONSOLE_VERBOSE
-
 #include <stdint.h>
 #include <mutex>
 #include <chrono>
@@ -70,10 +68,5 @@ public:
 	virtual ~Game();
 
 	void play();
-
-#if defined(_CONSOLE_VERBOSE)
-	void printBoard() const;
-	void printMembers() const;
-#endif
 
 };

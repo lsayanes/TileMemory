@@ -33,7 +33,9 @@ namespace sys
 
 
         bool createWindows(const std::string_view& title) const;
+        void setBackground(uint8_t r = 0, uint8_t g = 0, uint8_t b = 0, uint8_t a = 0xFF);
         void draw(ecs::EntityManager const& entities) const;
+        void flip();
 
         bool doEvent() const;
 

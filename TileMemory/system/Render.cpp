@@ -37,23 +37,28 @@ namespace sys
         return pWindow && pRenderer;
     }
 
+    void Render::setBackground(uint8_t r, uint8_t g, uint8_t b, uint8_t a)
+    {
+        SDL_SetRenderDrawColor(pRenderer, r, g, b, a);
+        SDL_RenderClear(pRenderer); //fills it with whatever color was set by SDL_SetRenderDrawColor
+    }
+
     void Render::draw(ecs::EntityManager const& entities) const
     {
-        SDL_SetRenderDrawColor(pRenderer, 0, 0, 0, 255);
-        SDL_RenderClear(pRenderer);
-
         std::vector<ecs::Entity_Type>::const_iterator it{ entities.begin() };
         while (it != entities.end())
         {
             const auto img = it->data.get();
             const SDL_FRect dest = { static_cast<float>(it->x), static_cast<float>(it->y), static_cast<float>(img->w), static_cast<float>(img->h) };
 
-            //std::cout << "Dibujando en X: " << it->x << " Y: " << it->y << " data:" << img->pData << std::endl;
-
             SDL_RenderTexture(pRenderer, (SDL_Texture*)(img->pData), NULL, &dest);
             it++;
 
         }
+    }
+
+    void Render::flip()
+    {
         SDL_RenderPresent(pRenderer);
     }
 

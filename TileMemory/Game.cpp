@@ -165,29 +165,32 @@ void Game::update()
 		for (auto l = 0; l < maxLines; l++)
 		{
 			for (uint8_t t = 0; t < Tiles::maxTiles; t++)
-			{
+			{				
 				std::lock_guard<std::mutex> lock(updateMutex);
-				{
-					auto& tile = lines[l].tiles[t];
-					//auto pData = entities[imgCnt].data.get()->pData;
+				auto& tile = lines[l].tiles[t];
+				//auto pData = entities[imgCnt].data.get()->pData;
 
-					if (Tile::Status::on == tile.status)
-						entities[imgCnt].data.get()->pData = onImg.pData;
-					else if (Tile::Status::off == tile.status)
-						entities[imgCnt].data.get()->pData = offImg.pData;
-					else if (Tile::Status::guess == tile.status)
-						entities[imgCnt].data.get()->pData = guessImg.pData;
-					else if (Tile::Status::dead == tile.status)
-						entities[imgCnt].data.get()->pData = deadImg.pData;
+				if (Tile::Status::on == tile.status)
+					entities[imgCnt].data.get()->pData = onImg.pData;
+				else if (Tile::Status::off == tile.status)
+					entities[imgCnt].data.get()->pData = offImg.pData;
+				else if (Tile::Status::guess == tile.status)
+					entities[imgCnt].data.get()->pData = guessImg.pData;
+				else if (Tile::Status::dead == tile.status)
+					entities[imgCnt].data.get()->pData = deadImg.pData;
 
-					imgCnt++;
-				}
+				imgCnt++;
 			}
 		}
-
+		
 		if (elapsed(updateTime, 5))
 		{
+			render.setBackground();
 			render.draw(entities);
+			score.draw();
+
+			render.flip();
+
 			updateTime = std::chrono::steady_clock::now();
 		}
 	}
@@ -326,65 +329,3 @@ uint8_t Game::checkInput()
 
 	return ret;
 }
-
-
-#if defined(_CONSOLE_VERBOSE)
-
-void Game::printBoard() const
-{
-	for (auto l = 0; l < maxLines; l++)
-	{
-		std::cout << "|";
-		for (uint8_t t = 0; t < Tiles::maxTiles; t++)
-		{
-			if (ground != l) 
-			{
-				if (playLine != l)
-				{
-					auto& tile = lines[l].tiles[t];
-					if (tile.on)
-					{
-						std::cout << " ";
-						std::cout << static_cast<int>(tile.onOrder);
-						std::cout << " ";
-					}
-					else
-						std::cout << " 0 ";
-				}
-				else
-				{
-					std::cout << " ? ";
-				}
-			}
-			else
-			{
-				std::cout << " x ";
-			}
-
-			std::cout << "|";
-		}
-
-		if (l == playLine)
-			std::cout << "<-";
-		std::cout << std::endl;
-	}
-}
-
-void Game::printMembers() const
-{
-	std::cout << "level:" << static_cast<int>(score.level) << std::endl;
-	std::cout << "lastAddedline:" << static_cast<int>(lastAddedline) << std::endl;
-	std::cout << "ground:" << static_cast<int>(ground) << std::endl;
-	std::cout << "score:" << score.maxScore << std::endl;
-
-	/*
-	std::cout << "input: ";
-	for (int i = 0; i < sizeof(input); i++)
-		std::cout << static_cast<int>(input[i]) << " ";
-	std::cout << std::endl;
-	*/
-
-
-}
-
-#endif

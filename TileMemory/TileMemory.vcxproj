@@ -296,12 +296,13 @@
     <ClCompile Include="ecs\EntityManager.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="MemoryApp.cpp" />
+    <ClCompile Include="Score.cpp" />
     <ClCompile Include="system\Render.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ecs\Entity.h" />
     <ClInclude Include="ecs\EntityManager.h" />
-    <ClInclude Include="score.h" />
+    <ClInclude Include="Score.h" />
     <ClInclude Include="Tiles.h" />
     <ClInclude Include="formats\Image.h" />
     <ClInclude Include="Game.h" />
