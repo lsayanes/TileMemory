@@ -36,6 +36,8 @@ private:
 	format::Image	onImg;
 	format::Image	guessImg;
 	format::Image	deadImg;
+	format::Image	gameOverImg;
+	
 
 	ecs::EntityManager	entities;
 

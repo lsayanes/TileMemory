@@ -12,6 +12,7 @@ class Score
 private:
 	sys::Render& render;
 
+	format::Image	scoreBckImg;
 	std::vector<format::Image*> numbers;
 	
 public:
@@ -21,7 +22,7 @@ public:
 	static constexpr uint32_t stages[maxLevels]{4, 8, 16, 128, 512, 1024, 4096, 8192};
 	static constexpr uint8_t levelsPoint[maxLevels]{ 1, 2, 2, 4, 4, 8, 8, 16 };
 
-	uint64_t	currScore{ 1234567890 };
+	uint64_t	currScore{ 0 };
 	uint8_t		level{ 0 };
 
 

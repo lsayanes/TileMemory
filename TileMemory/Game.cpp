@@ -23,7 +23,8 @@ Game::Game(sys::Render& rndr, Score& scr) :
 	guess{ Tile::Status::guess },
 	updateMutex{ },
 	render{ rndr },
-	offImg{ rndr.loadPng("./Img/cyan.png") }, onImg{ rndr.loadPng("./Img/yellow.png") }, guessImg{ rndr.loadPng("./Img/guess.png") }, deadImg{ rndr.loadPng("./Img/purple.png") },
+	offImg{ rndr.loadPng("./Img/cyan.png") }, onImg{ rndr.loadPng("./Img/yellow.png") }, guessImg{ rndr.loadPng("./Img/guess.png") }, 
+	deadImg{ rndr.loadPng("./Img/purple.png") }, gameOverImg{ rndr.loadPng("./Img/gameover.png") },
 	entities{ },
 	touchOrder{ 0 }, touches{ 0 }
 {
@@ -48,6 +49,7 @@ Game::~Game()
 	render.deletePng(onImg);
 	render.deletePng(guessImg);
 	render.deletePng(deadImg);
+	render.deletePng(gameOverImg);
 }
 
 void Game::play()
@@ -95,6 +97,10 @@ void Game::play()
 						if (ground <= playLine)
 						{
 							std::cout << "GAME OVER" << std::endl;
+							
+							auto& it = entities.add(gameOverImg);
+							it.x = 0;
+							it.y = 260;
 
 							while(render.doEvent())
 								;

@@ -6,7 +6,7 @@
 
 
 Score::Score(sys::Render& rndr): 
-	render{ rndr }, numbers{ }
+	render{ rndr }, scoreBckImg{ rndr.loadPng("./Img/score.png") }, numbers{ }
 {
 	std::string path;
 	for(int i = 0; i < 10; i++)
@@ -24,6 +24,8 @@ Score::~Score()
 		});
 
 	numbers.clear();
+
+	render.deletePng(scoreBckImg);
 }
 
 void Score::updateScore(uint8_t err)
@@ -39,21 +41,25 @@ void Score::updateScore(uint8_t err)
 
 void Score::draw()
 {
-	constexpr int32_t margin = 395;
-
 	ecs::EntityManager nums{ };
+
+	auto& bck = nums.add(scoreBckImg);
+
+	bck.x = 166;
+	bck.y = render.h() - 70;
 
 	std::string score = std::to_string(currScore);
 	const char* szScore = score.c_str();
-	auto len = strlen(szScore);
+	size_t len = strlen(szScore);
 
 	for (auto i = 0; i < len; i++)
 	{
 		format::Image* index = numbers[szScore[i] - '0'];
 
 		auto& it = nums.add(*index);
-		it.x = (margin - index->w) - static_cast<int32_t>(((len - (i + 1)) * index->w));
-		it.y = render.h() - 60;
+		auto *pbck = &nums[0];
+		it.x = pbck->x + 88 + ((i + 1) * it.data->w);
+		it.y = pbck->y + 8;
 	}
 
 	render.draw(nums);
