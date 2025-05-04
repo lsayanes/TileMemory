@@ -44,6 +44,8 @@ private:
 	uint8_t touchOrder;
 	uint8_t touches;
 
+	ecs::Entity<format::Font, std::string_view, float> scoreFont;
+
 
 private:
 	void	newLine();

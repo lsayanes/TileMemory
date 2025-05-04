@@ -7,16 +7,8 @@
 #include <vector>
 
 
-class Score
-{
-private:
-	sys::Render& render;
-
-	format::Image	scoreBckImg;
-	std::vector<format::Image*> numbers;
-	
-public:
-
+struct Score
+{	
 	static constexpr uint8_t maxLevels{ 8 };
 
 	static constexpr uint32_t stages[maxLevels]{4, 8, 16, 128, 512, 1024, 4096, 8192};
@@ -25,10 +17,8 @@ public:
 	uint64_t	currScore{ 0 };
 	uint8_t		level{ 0 };
 
-
-	explicit Score(sys::Render& rndr);
-	~Score();
+	inline explicit Score() = default;
+	virtual ~Score() = default;
 
 	void updateScore(uint8_t err = 0);
-	void draw();
 };

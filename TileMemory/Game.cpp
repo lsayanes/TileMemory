@@ -2,6 +2,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <bitset>
+#include <inttypes.h>
 
 #include <memory>
 #include <algorithm>
@@ -26,7 +27,8 @@ Game::Game(sys::Render& rndr, Score& scr) :
 	offImg{ rndr.loadPng("./Img/cyan.png") }, onImg{ rndr.loadPng("./Img/yellow.png") }, guessImg{ rndr.loadPng("./Img/guess.png") }, 
 	deadImg{ rndr.loadPng("./Img/purple.png") }, gameOverImg{ rndr.loadPng("./Img/gameover.png") },
 	entities{ },
-	touchOrder{ 0 }, touches{ 0 }
+	touchOrder{ 0 }, touches{ 0 },
+	scoreFont{ std::make_unique<format::Font>(std::string("./fnts/WhiteOnBlack.ttf"), (float)32.0f)}
 {
 	srand(static_cast<unsigned int>(time(nullptr)));
 
@@ -41,6 +43,12 @@ Game::Game(sys::Render& rndr, Score& scr) :
 			tile.y = l * offImg.h;
 		}
 	}
+
+	scoreFont.x = 5;
+	scoreFont.y = render.h() - 40;
+	scoreFont.data->r = 0xFF;
+	scoreFont.data->g = 0xFF;
+	scoreFont.data->b = 0xFF;
 }
 
 Game::~Game()
@@ -177,13 +185,13 @@ void Game::update()
 				//auto pData = entities[imgCnt].data.get()->pData;
 
 				if (Tile::Status::on == tile.status)
-					entities[imgCnt].data.get()->pData = onImg.pData;
+					entities[imgCnt].data->pData = onImg.pData;
 				else if (Tile::Status::off == tile.status)
-					entities[imgCnt].data.get()->pData = offImg.pData;
+					entities[imgCnt].data->pData = offImg.pData;
 				else if (Tile::Status::guess == tile.status)
-					entities[imgCnt].data.get()->pData = guessImg.pData;
+					entities[imgCnt].data->pData = guessImg.pData;
 				else if (Tile::Status::dead == tile.status)
-					entities[imgCnt].data.get()->pData = deadImg.pData;
+					entities[imgCnt].data->pData = deadImg.pData;
 
 				imgCnt++;
 			}
@@ -193,7 +201,8 @@ void Game::update()
 		{
 			render.setBackground();
 			render.draw(entities);
-			score.draw();
+			//score.draw();
+			render.drawText(scoreFont, "Level: %u Score: %" PRId64, score.level + 1, score.currScore);
 
 			render.flip();
 

@@ -16,7 +16,7 @@ int main(int argc, char* argv[])
     sys::Render render{ 400, 800 };
     if (render.createWindows("Memory Tiles!"))
     {
-        Score score{ render };
+        Score score{ };
 
         Game tileMemory{ render, score };
         tileMemory.play();

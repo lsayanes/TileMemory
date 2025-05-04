@@ -39,6 +39,9 @@
     <ClCompile Include="Score.cpp">
       <Filter>sources</Filter>
     </ClCompile>
+    <ClCompile Include="formats\Font.cpp">
+      <Filter>format</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="system\Render.h">
@@ -61,6 +64,9 @@
     </ClInclude>
     <ClInclude Include="Score.h">
       <Filter>headers</Filter>
+    </ClInclude>
+    <ClInclude Include="formats\Font.h">
+      <Filter>format</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
