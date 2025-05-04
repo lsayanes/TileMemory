@@ -6,6 +6,7 @@
 #include <vector>
 
 #include <Image.h>
+#include <Font.h>
 #include <EntityManager.h>
 
 namespace sys
@@ -28,13 +29,14 @@ namespace sys
         Render(Render&&) = default;
         Render& operator=(Render&&) = default;
 
-        [[nodiscard]] format::Image const loadPng(const std::string_view& path) const noexcept; //yes, return a new stack object through NVRO/VRO
+        [[nodiscard]] format::Image const loadPng(std::string_view path) const noexcept; //yes, return a new stack object through NVRO/VRO
         void deletePng(format::Image const& img) const noexcept;
 
 
-        bool createWindows(const std::string_view& title) const;
+        bool createWindows(std::string_view title) const;
         void setBackground(uint8_t r = 0, uint8_t g = 0, uint8_t b = 0, uint8_t a = 0xFF);
         void draw(ecs::EntityManager const& entities) const;
+        void drawText(ecs::Entity<format::Font, std::string_view, float> const &font, const char *frmt,...) const;
         void flip();
 
         bool doEvent() const;

@@ -6,6 +6,7 @@
 #include <chrono>
 
 #include <Image.h>
+#include <Font.h>
 #include <EntityManager.h>
 
 #include <Render.h>

@@ -1,9 +1,11 @@
 
 #include <iostream>
 #include <algorithm>
+#include <stdarg.h>
 
 #include <SDL3/SDL.h>
 #include <SDL3_image/SDL_image.h>
+#include <SDL3_ttf/SDL_ttf.h>
 
 #include "Render.h"
 
@@ -12,11 +14,12 @@ namespace sys
     SDL_Window* pWindow = nullptr;
     SDL_Renderer* pRenderer = nullptr;
 
+
     Render::Render(uint32_t w, uint32_t h) :
         m_uWidth{ w }, m_uHeight{ h }, onTouch{ nullptr }
     {
         auto sdl = SDL_Init(SDL_INIT_VIDEO);
-
+        
         std::cout << "Init SDL:" << (true == sdl ? "OK" : SDL_GetError());
         std::cout << std::endl;
 
@@ -29,7 +32,7 @@ namespace sys
         SDL_Quit();
     }
 
-    bool Render::createWindows(const std::string_view& title) const
+    bool Render::createWindows(std::string_view title) const
     {
         pWindow = SDL_CreateWindow(title.data(), m_uWidth, m_uHeight, 0);
         pWindow && (pRenderer = SDL_CreateRenderer(pWindow, NULL));
@@ -55,6 +58,30 @@ namespace sys
             it++;
 
         }
+    }
+
+    void Render::drawText(ecs::Entity<format::Font, std::string_view, float> const &font, const char* frmt, ...) const
+    {
+        constexpr size_t len = 256;
+        char str[len + 1]{""};
+        va_list args;
+
+        va_start(args, frmt);
+        vsnprintf(str, len, frmt, args);
+        va_end(args);
+
+        format::Font *pFont = font.data.get();
+
+        SDL_Color color = { pFont->r, pFont->g, pFont->b, pFont->a };
+        SDL_Surface* surface = TTF_RenderText_Solid(static_cast<TTF_Font*>(pFont->pData), str, strlen(str), color);
+        SDL_Texture* texture = SDL_CreateTextureFromSurface(pRenderer, surface);
+
+        const SDL_FRect dest = { static_cast<float>(font.x), static_cast<float>(font.y), static_cast<float>(surface->w), static_cast<float>(surface->h) };
+        SDL_RenderTexture(pRenderer, texture, nullptr, &dest);
+
+
+        SDL_DestroySurface(surface);
+
     }
 
     void Render::flip()
@@ -86,7 +113,7 @@ namespace sys
         return true;
     }
     
-    format::Image const Render::loadPng(const std::string_view& path) const noexcept
+    format::Image const Render::loadPng(std::string_view path) const noexcept
     {
         uint32_t w = 0;
         uint32_t h = 0;
@@ -116,4 +143,7 @@ namespace sys
         std::cout << "Render destroy texture " << img.pData << std::endl;
         SDL_DestroyTexture((SDL_Texture*)(img.pData));
     }
+
+
+
 }
